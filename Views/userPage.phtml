@@ -1,3 +1,6 @@
+<!-- userPage does not check if the users are already contacts, trying to add them to contacts again will
+ probably throw an error but not effect the DB, in future ensure this check is made-->
+
 <?php require('template/header.phtml') ?>
 <div class="container-fluid" id="userDetails">
     <h2><?php echo $view->user['userName'] ?></h2>
@@ -13,5 +16,35 @@
             <?php echo $view->user['dateJoined'] ?>
         </p>
     </div>
+    <?php
+    if ($view->targetUserID != $_SESSION['userID'])
+    { //if this is not the users own page they can add the user this page belongs to to their contacts
+    ?>
+    <div class="container-fluid">
+        <button id="addContactButton" onclick="addContact()">Add user to contacts</button>
+    </div>
+    <?php
+    }
+    ?>
 </div>
 <?php require('template/footer.phtml')?>
+
+<script>
+    function addContact()
+    {
+        //variable initialisation
+        let userID = <?php echo $_SESSION['userID']; ?>;
+        let targetUserID = <?php echo $view->targetUserID; ?>; //values can be echoed into script when output by php
+
+        //console.log("Current user: "+userID+"\n"+ "target user: "+targetUserID);
+
+        //HTTPRequest stuff
+        let addContact = new XMLHttpRequest();
+        addContact.open("POST","Models/scripts/addContact.php");
+        addContact.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+        addContact.send("userID="+userID+"&targetUserID="+targetUserID);
+
+        //makes button invisible
+        document.getElementById("addContactButton").setAttribute("hidden","doesn't matter whats in this field");
+    }
+</script>

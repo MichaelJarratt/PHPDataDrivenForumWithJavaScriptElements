@@ -11,6 +11,7 @@ if(isset($_SESSION['loggedIn']) && isset($_GET['userID']))
 {
     $view = new stdClass();
     $view->user = $userGetter->getUserDetails($_GET['userID']); //only done is login valid and ID supplied
+    $view->targetUserID = $_GET['userID'];
     require_once("Views/userPage.phtml");
 }
 else

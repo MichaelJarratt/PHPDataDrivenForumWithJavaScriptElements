@@ -177,3 +177,20 @@
     background-color: lightgray;
 }
 
+.contact-div h3
+{
+    margin-top: 15px;
+    margin-bottom: 15px;
+    cursor: pointer;
+    font-style: oblique; /* idk about this but something is needed to distinguish the names as clickable */
+}
+.contact-div h3:hover
+{
+    color: whitesmoke;
+}
+
+.clickableText
+{
+    cursor: pointer;
+    font-style: oblique;
+}

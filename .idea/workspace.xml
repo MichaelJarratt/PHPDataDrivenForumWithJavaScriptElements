@@ -2,12 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="ed39860b-6fc6-46fb-8454-bf0789b9e0e7" name="Default" comment="">
-      <change afterPath="$PROJECT_DIR$/Models/MessagingInterface.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Views/messaging.phtml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/messaging.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Views/index.phtml" beforeDir="false" afterPath="$PROJECT_DIR$/Views/index.phtml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Views/template/header.phtml" beforeDir="false" afterPath="$PROJECT_DIR$/Views/template/header.phtml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Views/messaging.phtml" beforeDir="false" afterPath="$PROJECT_DIR$/Views/messaging.phtml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/css/my-style.css" beforeDir="false" afterPath="$PROJECT_DIR$/css/my-style.css" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -176,7 +172,7 @@
       <workItem from="1578580071777" duration="63000" />
       <workItem from="1578580373627" duration="783000" />
       <workItem from="1581001940763" duration="793000" />
-      <workItem from="1586966489517" duration="9615000" />
+      <workItem from="1586966489517" duration="12722000" />
     </task>
     <servers />
   </component>

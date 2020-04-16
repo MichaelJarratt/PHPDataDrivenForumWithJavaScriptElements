@@ -3,11 +3,9 @@ require_once("template/header.phtml");
 ?>
 
 <div class="container-fluid"> <!-- container which holds either contacts or chat window -->
-<?php
-if(true) //condition for is user has chosen contact to message
-{
-?>
-    <div class="container-fluid, chatContacts">
+
+    <!-- beginning of contacts listing -->
+    <div id="contactsListDiv" class="container-fluid,contactsDiv">
         <?php
         if(sizeof($view->contacts) == 0) //no contacts
         {
@@ -19,20 +17,55 @@ if(true) //condition for is user has chosen contact to message
             <h2>Contacts</h2>
             <?php
             foreach($view->contacts as $contact) //for each contact user has
-            { ?>
+            {
+                $targetUserID = $contact['userID'];
+                $targetUserName = $contact['username'];
+                ?>
                 <div class="container-fluid, contact-div">
-                    <h3><?php echo $contact['username']; ?></h3>
+                    <h3 ID="<?php echo $targetUserID ?>" onclick="openChatWindow(<?php echo $targetUserID ?>)"> <?php echo $targetUserName ?></h3>
                 </div>
              <?php
             }
         }
         ?>
     </div>
-<?php
-}
-?>
-</div>
+    <!-- end of contacts listing -->
 
+    <!-- beginning of chat window -->
+    <div id="chatWindowDiv" class="container-fluid,chatWindow" hidden>
+        <h2 id="messagingTargetTitle"></h2> <!-- will display chat targets username -->
+        <h3 class="clickableText" onclick="returnToContactsList()"><- back to contacts</h3>
+        <div id="messageArea" class="container-fluid"> <!-- will hold the chat -->
+
+        </div>
+    </div>
+    <!-- end of chat window -->
+</div>
+<script>
+    let userID = <?php echo $_SESSION['userID'] ?>; //puts current users ID into script
+    let contactsWindow = document.getElementById("contactsListDiv"); //div that shows all of users contacts
+    let chatWindow = document.getElementById("chatWindowDiv"); //div where the chat is displayed
+    let messagingTargetTitle = document.getElementById("messagingTargetTitle");
+
+
+     //When users name is clicked onclick event triggers this function and passes the ID of the selected user
+    function openChatWindow(targetUserID)
+    {
+        let targetUserName = document.getElementById(targetUserID).innerText
+        //console.log("now messaging: "+targetUserID+", "+targetUserName);
+        contactsWindow.setAttribute("hidden","true");
+        chatWindow.removeAttribute("hidden"); //makes chat window visible
+        messagingTargetTitle.innerText = "Now messaging "+targetUserName;
+    }
+    //when user clicks "back to contacts" in chat window this makes the chat invisible and the contacts visible again
+    function returnToContactsList()
+    {
+        chatWindow.setAttribute("hidden","true");
+        contactsWindow.removeAttribute("hidden");
+        messagingTargetTitle.innerText = ""; //empties username from chat window
+        // when implemented will also remove all chat messages
+    }
+</script>
 <?php
 require_once("template/footer.phtml");
 ?>

@@ -1,0 +1,38 @@
+<?php
+require_once("template/header.phtml");
+?>
+
+<div class="container-fluid"> <!-- container which holds either contacts or chat window -->
+<?php
+if(true) //condition for is user has chosen contact to message
+{
+?>
+    <div class="container-fluid, chatContacts">
+        <?php
+        if(sizeof($view->contacts) == 0) //no contacts
+        {
+            echo "you have no contacts";
+        }
+        else
+        {
+            ?>
+            <h2>Contacts</h2>
+            <?php
+            foreach($view->contacts as $contact) //for each contact user has
+            { ?>
+                <div class="container-fluid, contact-div">
+                    <h3><?php echo $contact['username']; ?></h3>
+                </div>
+             <?php
+            }
+        }
+        ?>
+    </div>
+<?php
+}
+?>
+</div>
+
+<?php
+require_once("template/footer.phtml");
+?>

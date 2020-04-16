@@ -32,12 +32,12 @@
                         <?php
                         //var_dump($_SESSION);
                             if($_SERVER['PHP_SELF']=="/login.php" || $_SERVER['PHP_SELF']=="/signup.php")
-                            {
+                            { //if the user is in the login or sign up page then don't show any links in the header
                                 //do nothing
                             }
                             elseif (isset($_SESSION['loggedIn']))
-                            {
-                                echo "<a href=\"userPage.php?userID=".$_SESSION['userID']."\">".$_SESSION['userName']."</a>";
+                            { //if user is logged in show username
+                                echo "<a href=\"userPage.php?userID=".$_SESSION['userID']."\">".$_SESSION['userName']."</a>"; //display users name as link to their page
                             }
                             else //determine URL of current page and send it to login form when clicked
                             {

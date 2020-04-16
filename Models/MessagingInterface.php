@@ -20,6 +20,22 @@ class MessagingInterface
     {
         return self::$database->retrieve("SELECT userID, username FROM Users WHERE userID IN (SELECT col1 FROM MessageContacts WHERE col2 = \"$userID\" UNION SELECT col2 FROM MessageContacts WHERE col1 = \"$userID\")");
     }
+
+    /*
+     * gets every message sent between userID and targetUserID whos messageID is greater than latestMessageID
+     */
+    public static function getMessages($userID,$targetUserID,$latestMessageID)
+    {
+        return self::$database->retrieve("SELECT messageID,senderID, message,timeSent,received,recipientID FROM Messages WHERE messageID > \"$latestMessageID\" AND ((senderID = \"$userID\" AND recipientID=\"$targetUserID\") OR (senderID = \"$targetUserID\" AND recipientID=\"$userID\"))");
+    }
+
+    /*
+     * sets a message (by ID) as having been received
+     */
+    public static function setReceived($messageID)
+    {
+        self::$database->update("UPDATE Messages set received = 1 WHERE messageID = \"$messageID\";");
+    }
 }
 
 MessagingInterface::$database = Database::getInstance(); //equivalent of constructor for static field

@@ -194,3 +194,34 @@
     cursor: pointer;
     font-style: oblique;
 }
+
+.chatMessage
+{
+    border-style: solid;
+    border-color: lightblue;
+    background-color: lightblue;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    min-height: 5ch;
+}
+.received
+{
+    text-align: left;
+    border-left-style: none;
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+    padding-left: 5px;
+}
+.sent
+{
+    text-align: right;
+    border-right-style: none;
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
+    padding-right: 5px;
+}
+
+.timeSent
+{
+    font-size: 70%;
+}

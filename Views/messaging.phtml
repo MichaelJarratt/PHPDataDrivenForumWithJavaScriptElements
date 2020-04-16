@@ -43,19 +43,27 @@ require_once("template/header.phtml");
 </div>
 <script>
     let userID = <?php echo $_SESSION['userID'] ?>; //puts current users ID into script
+    let targetUserID = -1; //placeholder value
     let contactsWindow = document.getElementById("contactsListDiv"); //div that shows all of users contacts
-    let chatWindow = document.getElementById("chatWindowDiv"); //div where the chat is displayed
-    let messagingTargetTitle = document.getElementById("messagingTargetTitle");
+    let chatWindow = document.getElementById("chatWindowDiv"); //div where the chat and related details are displayed
+    let messagingTargetTitle = document.getElementById("messagingTargetTitle"); //holds username of person user is messaging
+    let messageArea = document.getElementById("messageArea"); //div which will contain the messages
+    let chatWindowOpen = false; //when chat window is closed newMessagePollLoop will terminate
 
-
+    //----> begin open/close chat window functions
      //When users name is clicked onclick event triggers this function and passes the ID of the selected user
-    function openChatWindow(targetUserID)
+    function openChatWindow(p_targetUserID)
     {
+        targetUserID = p_targetUserID; //p_ = parameter - can't disambiguate between parameters and variables with same name
+        //console.log("now messaging: "+targetUserID);
         let targetUserName = document.getElementById(targetUserID).innerText
         //console.log("now messaging: "+targetUserID+", "+targetUserName);
         contactsWindow.setAttribute("hidden","true");
         chatWindow.removeAttribute("hidden"); //makes chat window visible
         messagingTargetTitle.innerText = "Now messaging "+targetUserName;
+
+        chatWindowOpen = true;
+        newMessagePollLoop(); //initiate loop polling for new messages
     }
     //when user clicks "back to contacts" in chat window this makes the chat invisible and the contacts visible again
     function returnToContactsList()
@@ -63,8 +71,54 @@ require_once("template/header.phtml");
         chatWindow.setAttribute("hidden","true");
         contactsWindow.removeAttribute("hidden");
         messagingTargetTitle.innerText = ""; //empties username from chat window
+
         // when implemented will also remove all chat messages
+        messageArea.innerHTML = ""; //removes all messages from messageArea
+        chatWindowOpen = false; //will cause polling loop to terminate
+        latestMessageID = -1; //reset latest message to placeholder
     }
+    //----> end open/close chat window functions
+
+
+    //----> begin send/receive message functions
+    let messageRequest = new XMLHttpRequest();
+    let latestMessageID = -1; //placeholder, increments to stop unnecessary data being sent from server
+    messageRequest.onload = function ()
+    {
+        //console.log("current user: "+userID);
+        let messages = JSON.parse(messageRequest.response); //every message that is returned by php script
+        messages.forEach(function (message) //for each message
+        {
+            if(parseInt(message['messageID']) > latestMessageID) //if the messages ID is greater than the ID of the last message
+            {
+                latestMessageID = parseInt(message['messageID']); //increment latestMessageID
+            }
+
+            // put messages into messageArea
+            console.log("message sent by:"+message['senderID']);
+            if(parseInt(message['senderID']) === userID) //if message was sent by current user
+            {
+                messageArea.innerHTML += "<div class='chatMessage sent'>"+message['message']+"</p><p class='timeSent'>sent: "+message['timeSent']+"</p></div>"
+            }
+            else //if message was sent by another user
+            {
+                messageArea.innerHTML += "<div class='chatMessage received'><p>"+message['message']+"</p><p class='timeSent'>sent: "+message['timeSent']+"</p> </div>"
+            }
+        })
+    }
+
+    //polls server for new messages
+    function newMessagePollLoop()
+    {
+        if(chatWindowOpen) //if chat window is still open
+        {
+            messageRequest.open("POST","Models/scripts/getChatMessages.php"); //will access getChatMessages with data sent in $_POST
+            messageRequest.setRequestHeader("Content-type", "application/x-www-form-urlencoded"); //more configuration
+            messageRequest.send("userID="+userID+"&targetUserID="+targetUserID+"&latestMessageID="+latestMessageID);
+            setTimeout(newMessagePollLoop,2500); //repeats itself every 2.5 seconds
+        }
+    }
+    //----> end send/receive message functions
 </script>
 <?php
 require_once("template/footer.phtml");

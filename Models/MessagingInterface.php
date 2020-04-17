@@ -36,6 +36,23 @@ class MessagingInterface
     {
         self::$database->update("UPDATE Messages set received = 1 WHERE messageID = \"$messageID\";");
     }
+
+    /*
+     * inserts new message into database
+     */
+    public static function insertMessage($senderID,$recipientID,$message)
+    {
+        self::$database->update("INSERT INTO Messages(senderID, recipientID, message) VALUES(\"$senderID\",\"$recipientID\",\"$message\")");
+    }
+
+    /*
+     * selects the userID of the sender and the number of unread messages sent to current user
+     * no senderIDs are selected if there are no unread messages for current user
+     */
+    public static function getUnreadMessageCount($userID)
+    {
+        return self::$database->retrieve("SELECT senderID, COUNT(messageID) FROM Messages WHERE recipientID = \"$userID\" AND received = 0 GROUP BY senderID");
+    }
 }
 
 MessagingInterface::$database = Database::getInstance(); //equivalent of constructor for static field

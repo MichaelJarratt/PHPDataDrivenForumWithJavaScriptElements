@@ -16,13 +16,16 @@ require_once("template/header.phtml");
             ?>
             <h2>Contacts</h2>
             <?php
+            $contactIDs = [];
             foreach($view->contacts as $contact) //for each contact user has
             {
+                array_push($contactIDs,$contact['userID']); //records userID in array
                 $targetUserID = $contact['userID'];
                 $targetUserName = $contact['username'];
                 ?>
                 <div class="container-fluid, contact-div">
                     <h3 ID="<?php echo $targetUserID ?>" onclick="openChatWindow(<?php echo $targetUserID ?>)"> <?php echo $targetUserName ?></h3>
+                    <h4 ID="notification<?php echo $targetUserID ?>" class="notification right" hidden></h4>
                 </div>
              <?php
             }
@@ -38,6 +41,7 @@ require_once("template/header.phtml");
         <div id="messageArea" class="container-fluid"> <!-- will hold the chat -->
 
         </div>
+        <textarea class="messageInput" id="messageInput" placeholder="Write a message.."></textarea>
     </div>
     <!-- end of chat window -->
 </div>
@@ -49,9 +53,12 @@ require_once("template/header.phtml");
     let messagingTargetTitle = document.getElementById("messagingTargetTitle"); //holds username of person user is messaging
     let messageArea = document.getElementById("messageArea"); //div which will contain the messages
     let chatWindowOpen = false; //when chat window is closed newMessagePollLoop will terminate
+    let contactIDs = <?php echo json_encode($contactIDs) ?>; //puts array of contact IDs into javascript
+    //console.log(<?php echo json_encode($contactIDs) ?>);
 
-    //----> begin open/close chat window functions
-     //When users name is clicked onclick event triggers this function and passes the ID of the selected user
+    //############################ begin open/close chat window functions
+    //###################################################################
+    //When users name is clicked onclick event triggers this function and passes the ID of the selected user
     function openChatWindow(p_targetUserID)
     {
         targetUserID = p_targetUserID; //p_ = parameter - can't disambiguate between parameters and variables with same name
@@ -76,13 +83,18 @@ require_once("template/header.phtml");
         messageArea.innerHTML = ""; //removes all messages from messageArea
         chatWindowOpen = false; //will cause polling loop to terminate
         latestMessageID = -1; //reset latest message to placeholder
+        notificationLoop(); //begins polling for message notification
     }
-    //----> end open/close chat window functions
+    //############################## end open/close chat window functions
+    //###################################################################
 
 
-    //----> begin send/receive message functions
+    //###############################begin send/receive message functions
+    //###################################################################
     let messageRequest = new XMLHttpRequest();
     let latestMessageID = -1; //placeholder, increments to stop unnecessary data being sent from server
+    //how messages are handled when received
+    //------------------------------------
     messageRequest.onload = function ()
     {
         //console.log("current user: "+userID);
@@ -95,7 +107,6 @@ require_once("template/header.phtml");
             }
 
             // put messages into messageArea
-            console.log("message sent by:"+message['senderID']);
             if(parseInt(message['senderID']) === userID) //if message was sent by current user
             {
                 messageArea.innerHTML += "<div class='chatMessage sent'>"+message['message']+"</p><p class='timeSent'>sent: "+message['timeSent']+"</p></div>"
@@ -106,7 +117,6 @@ require_once("template/header.phtml");
             }
         })
     }
-
     //polls server for new messages
     function newMessagePollLoop()
     {
@@ -118,7 +128,92 @@ require_once("template/header.phtml");
             setTimeout(newMessagePollLoop,2500); //repeats itself every 2.5 seconds
         }
     }
-    //----> end send/receive message functions
+
+    //how messages are sent to server
+    function sendMessage()
+    {
+        let messageInput = document.getElementById("messageInput");
+        let messageSendRequest = new XMLHttpRequest();
+        messageSendRequest.open("POST", "Models/scripts/sendMessage.php"); //will access getNotifications with data in $_POST
+        messageSendRequest.setRequestHeader("Content-type", "application/x-www-form-urlencoded"); //more configuration
+        messageSendRequest.send("userID=" + userID + "&targetUserID=" + targetUserID + "&message=" + messageInput.value);
+        //console.log("userID=" + userID + "&targetID=" + targetUserID + "&message=" + messageInput.value);
+        messageInput.value = ""; //empties input box
+    }
+    //################################ end send/receive message functions
+    //###################################################################
+
+    //################ begin event listeners ############################
+    //###################################################################
+    //event listener for "enter" on messageInput, triggers sending of message to server
+    messageInput.addEventListener("keydown",function (event)
+    {
+        var keycode = event.keyCode || event.which; //I have no idea why or how this works but it does
+        if(keycode == '13') //if user pressed enter
+        {
+            sendMessage(); //trigger sending message to server
+            //console.log("enter pressed");
+        }
+    });
+    //################ end event listeners ##############################
+    //###################################################################
+
+    //################## begin notification functions ###################
+    //###################################################################
+    let notificationRequest = new XMLHttpRequest();
+    notificationRequest.onload = function ()
+    {
+        let notificationContacts = []; //array of contacts who have notifications for this user
+        let notifications = JSON.parse(notificationRequest.response)
+        //console.log("//notifications received:");
+
+        notifications.forEach(function (notification) //if notifications are empty then it does nothing, as it should
+        {
+            //console.log("You have "+notification['messageCount']+" unread messages from "+notification['senderID']);
+            notificationContacts.push(notification['senderID']);
+            let notificationBox = document.getElementById("notification"+notification['senderID']); //gets notificationBox for this contact
+
+            notificationBox.innerText = notification['messageCount']+" New Message"; //generic text
+            if(notification['messageCount']>1) //more than one notification
+            {
+                notificationBox.innerText+="s"; //makes "Message" plural
+            }
+            //makes notificationBox visible
+            notificationBox.removeAttribute("hidden");
+        });
+
+        //clear notifications from contacts who have no new messaged to read
+        contactIDs.forEach(function (contactID)
+        {
+            console.log("checking not. from contact: "+contactID);
+            if(!notificationContacts.includes(contactID)) //if contact does not have any notifications for user
+            {
+                console.log("contact "+contactID+" has no new messages");
+                let notificationBox = document.getElementById("notification"+contactID); //gets notification box for this contact
+                if(!notificationBox.hasAttribute("hidden")) //if notification box is not hidden (meaning there was a notification and the user then read the message)
+                {
+                    notificationBox.setAttribute("hidden","true");
+                    notificationBox.innerText = ""; //removes message
+                }
+            }
+        })
+    };
+
+    //function loops while contacts window is active and notifies new messages
+    function notificationLoop()
+    {
+        if(!chatWindowOpen) //if contacts list is open
+        {
+            notificationRequest.open("POST", "Models/scripts/getNotifications.php");
+            notificationRequest.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+            notificationRequest.send("userID=" + userID);
+            setTimeout(notificationLoop,2500) //loops every 2.5 seconds
+        }
+    }
+    notificationLoop(); //start polling for notifications when page loads
+
+    //################### end notification functions ####################
+    //###################################################################
 </script>
 <?php
 require_once("template/footer.phtml");

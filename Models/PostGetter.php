@@ -1,5 +1,6 @@
 <?php
-require_once("Models/Database.php");
+//require_once("Models/Database.php");
+require_once($_SERVER['DOCUMENT_ROOT']."/Models/Database.php");
 
 /*
  * this class is used for any instance where a post needs to be retrieved from DB
@@ -42,6 +43,39 @@ class PostGetter
         else
         {
             $query.=" ORDER BY datePosted DESC LIMIT 100;";
+        }
+        //echo $query;
+        return $this->database->retrieve($query);
+    }
+
+    // returns all posts matching filters in $GET
+    public function getPosts($GET)
+    {
+        $query = "SELECT userName, catName, title, content, datePosted, deleted, archived, postID, views, likes, dislikes, userID FROM Posts, Users, Categories
+                  WHERE Users.userID=Posts.poster AND Categories.catID = Posts.category";
+        if($GET != null) //if not null
+        {
+            if($GET['titleSearch']!="") //if the user has searched for a title
+            {
+                $query.=" AND title LIKE \"%".$GET['titleSearch']."%\"";
+            }
+            if($GET['contentSearch']) //if the user is searching for content
+            {
+                $query.=" AND content LIKE \"%".$GET['contentSearch']."%\"";
+            }
+            if($GET['posterSearch']) //if the user is searching for poster
+            {
+                $query.=" AND userName LIKE \"%".$GET['posterSearch']."%\"";
+            }
+            if($GET['categorySelect'] && $GET['categorySelect']!="all") //if the user is searching for category
+            {
+                $query.=" AND Categories.catName = \"".$GET['categorySelect']."\"";
+            }
+            $query.=" ORDER BY datePosted DESC;";
+        }
+        else
+        {
+            $query.=" ORDER BY datePosted DESC;";
         }
         //echo $query;
         return $this->database->retrieve($query);

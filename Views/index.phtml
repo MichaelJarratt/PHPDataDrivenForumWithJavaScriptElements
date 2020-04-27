@@ -91,4 +91,53 @@ foreach ($posts as $post) //last post is replaced by previous post, meaning prev
 ?>
 </div>
 
+<script>
+    let noPosts = <?php echo count($posts); ?>; //tracks number of posts on page (used to remove duplicate posts)
+    noPosts = 11;
+
+    //console.log(noPosts);
+
+    //console.log(window.location.search);
+    //this script is responsible for handling the infinite scrolling feature
+    let postContainer = document.getElementById("postContainer");
+    let totalHeight = postContainer.offsetHeight;
+
+    document.addEventListener("scroll", function (event) //triggers each time user scrolls
+    {
+        //console.log(event);
+        //console.log("Scroll height: "+window.scrollY);
+
+        let currentScroll = window.scrollY; //how far the user is down the page in pixels
+
+        if(totalHeight - 1000 < currentScroll) //if the user is less than 1000px off the bottom of the page load more posts
+        {
+            console.log("near bottom of page");
+            console.log(window.location.search+"&noPosts="+noPosts);
+            // for (i = 0; i<60; i++)
+            // {
+            //     postContainer.innerHTML += "<div><P>some text</p><P>bit more text</p></div>"
+            // }
+            totalHeight += 2000; //temporarily offsets height so that continues scrolling doesn't spam requests, actual height calculated when new posts are placed   postContainer.offsetHeight;
+            //postRequest.open("GET","Models/scripts/getPosts.php"+window.location.search);
+            //postRequest.setRequestHeader("Content-type", "application/x-www-form-urlencoded"); //more configuration
+            //postRequest.send(window.location.search)//+"&noPosts="+noPosts); //window.location.search is js equivalent of $_GET, which is used by postGetter to get posts meeting search filters
+
+            postRequest.open("POST","Models/scripts/getPosts.php");
+            postRequest.setRequestHeader("Content-type", "application/x-www-form-urlencoded"); //more configuration
+            postRequest.send((window.location.search+"&noPosts="+noPosts).substr(1));
+        }
+
+        //console.log("Total height: "+totalHeight);
+    })
+
+    //part responsible for putting new posts in their place
+    let postRequest = new XMLHttpRequest();
+    postRequest.onload = function ()
+    {
+        //alert(postRequest.response);
+        console.log(postRequest.response);
+    }
+
+</script>
+
 <?php require('template/footer.phtml') ?>

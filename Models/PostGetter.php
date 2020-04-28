@@ -38,11 +38,11 @@ class PostGetter
             {
                 $query.=" AND Categories.catName = \"".$GET['categorySelect']."\"";
             }
-            $query.=" ORDER BY datePosted DESC LIMIT 100;";
+            $query.=" ORDER BY datePosted DESC LIMIT 50;";
         }
         else
         {
-            $query.=" ORDER BY datePosted DESC LIMIT 100;";
+            $query.=" ORDER BY datePosted DESC LIMIT 50;";
         }
         //echo $query;
         return $this->database->retrieve($query);
@@ -55,19 +55,19 @@ class PostGetter
                   WHERE Users.userID=Posts.poster AND Categories.catID = Posts.category";
         if($GET != null) //if not null
         {
-            if($GET['titleSearch']!="") //if the user has searched for a title
+            if(isset($GET['titleSearch'])&&$GET['titleSearch']!="") //if the user has searched for a title
             {
                 $query.=" AND title LIKE \"%".$GET['titleSearch']."%\"";
             }
-            if($GET['contentSearch']) //if the user is searching for content
+            if(isset($GET['contentSearch'])&&$GET['contentSearch']!="") //if the user is searching for content
             {
                 $query.=" AND content LIKE \"%".$GET['contentSearch']."%\"";
             }
-            if($GET['posterSearch']) //if the user is searching for poster
+            if(isset($GET['posterSearch'])&&$GET['posterSearch']!="") //if the user is searching for poster
             {
                 $query.=" AND userName LIKE \"%".$GET['posterSearch']."%\"";
             }
-            if($GET['categorySelect'] && $GET['categorySelect']!="all") //if the user is searching for category
+            if(isset($GET['categorySelect'])&&$GET['categorySelect']!="" && $GET['categorySelect']!="all") //if the user is searching for category
             {
                 $query.=" AND Categories.catName = \"".$GET['categorySelect']."\"";
             }

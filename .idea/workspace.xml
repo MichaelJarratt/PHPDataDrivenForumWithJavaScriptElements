@@ -2,10 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="ed39860b-6fc6-46fb-8454-bf0789b9e0e7" name="Default" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Models/scripts/getPosts.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Models/PostGetter.php" beforeDir="false" afterPath="$PROJECT_DIR$/Models/PostGetter.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Models/scripts/getPosts.php" beforeDir="false" afterPath="$PROJECT_DIR$/Models/scripts/getPosts.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Views/index.phtml" beforeDir="false" afterPath="$PROJECT_DIR$/Views/index.phtml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -175,7 +174,7 @@
       <workItem from="1587142511454" duration="49000" />
       <workItem from="1587142624330" duration="11055000" />
       <workItem from="1587667526379" duration="32000" />
-      <workItem from="1587911284320" duration="10818000" />
+      <workItem from="1587911284320" duration="20909000" />
     </task>
     <servers />
   </component>

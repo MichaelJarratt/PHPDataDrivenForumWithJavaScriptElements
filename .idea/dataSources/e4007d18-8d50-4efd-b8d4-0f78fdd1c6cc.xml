@@ -1077,6 +1077,7 @@ col2</ColNames>
       <Position>1</Position>
       <DataType>int(11) unsigned|0s</DataType>
       <NotNull>1</NotNull>
+      <SequenceIdentity>1</SequenceIdentity>
       <ColumnKind>normal</ColumnKind>
     </column>
     <column id="267" parent="232" name="messageID">
@@ -1091,7 +1092,7 @@ col2</ColNames>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="269" parent="232" name="origionalName">
+    <column id="269" parent="232" name="originalName">
       <Position>4</Position>
       <DataType>text|0s</DataType>
       <NotNull>1</NotNull>

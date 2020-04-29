@@ -246,3 +246,10 @@
     padding-top: 5px;
     padding-bottom: 5px;
 }
+
+.messageImage
+{
+    max-width: 80%;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}

@@ -110,9 +110,14 @@ require_once("template/header.phtml");
     let latestMessageID = -1; //placeholder, increments to stop unnecessary data being sent from server
     //how messages are handled when received
     //------------------------------------
+    messageRequest.onerror = function()
+    {
+        console.log("error requesting messages")
+    };
     messageRequest.onload = function ()
     {
         //console.log("current user: "+userID);
+        //console.log("received message data from server");
         let messages = JSON.parse(messageRequest.response); //every message that is returned by php script
         messages.forEach(function (message) //for each message
         {
@@ -122,14 +127,51 @@ require_once("template/header.phtml");
             }
 
             // put messages into messageArea
+            // if(parseInt(message['senderID']) === userID) //if message was sent by current user
+            // {
+            //     messageArea.innerHTML += "<div class='chatMessage sent'>"+message['message']+"</p><p class='timeSent'>sent: "+message['timeSent']+"</p>"
+            //     if(typeof message['fileName'] != 'undefined') //js equivalent of "isset()"
+            //     {
+            //         messageArea.innerHTML+= `<img src='../images/${message['fileName']}' >`
+            //     }
+            //     messageArea.innerHTML += "</div>"
+            // }
+            // else //if message was sent by another user
+            // {
+            //     messageArea.innerHTML += "<div class='chatMessage received'><p>"+message['message']+"</p><p class='timeSent'>sent: "+message['timeSent']+"</p>"
+            //     if(typeof message['fileName'] != 'undefined') //js equivalent of "isset()"
+            //     {
+            //         messageArea.innerHTML+= `<img src='../images/${message['fileName']}' >`
+            //     }
+            //     messageArea.innerHTML += "</div>"
+            // }
+            //console.log("received message");
+
+            console.log(message['senderID']);
+
+            messageDiv = document.createElement("div"); //creates div that will hold the message
+            messageDiv.classList.add("chatMessage"); //adds the class chatMessage
             if(parseInt(message['senderID']) === userID) //if message was sent by current user
+                messageDiv.classList.add("sent");
+            else
+                messageDiv.classList.add("received");
+
+            messageDiv.appendChild(document.createTextNode(message['message'])); //creates paragraph element and appends to to the message div
+
+            if(typeof message['fileName'] !== 'undefined') //if this message has a file
             {
-                messageArea.innerHTML += "<div class='chatMessage sent'>"+message['message']+"</p><p class='timeSent'>sent: "+message['timeSent']+"</p></div>"
+                let image = document.createElement("img");
+                image.src = "images/"+message['fileName'];
+                image.classList.add("messageImage");
+                messageDiv.appendChild(image);
             }
-            else //if message was sent by another user
-            {
-                messageArea.innerHTML += "<div class='chatMessage received'><p>"+message['message']+"</p><p class='timeSent'>sent: "+message['timeSent']+"</p> </div>"
-            }
+
+            let timeSentP = document.createElement("p"); //element which hold the time sent
+            timeSentP.innerText = "sent: "+ message['timeSent']; //sets it's text
+            timeSentP.classList.add("timeSent"); //sets its class
+            messageDiv.appendChild(timeSentP); //adds it to the message div
+
+            messageArea.appendChild(messageDiv); //adds message to chat window
         })
     };
     //polls server for new messages
@@ -137,6 +179,7 @@ require_once("template/header.phtml");
     {
         if(chatWindowOpen) //if chat window is still open
         {
+            //console.log("polling server for messages");
             messageRequest.open("POST","Models/scripts/getChatMessages.php"); //will access getChatMessages with data sent in $_POST
             messageRequest.setRequestHeader("Content-type", "application/x-www-form-urlencoded"); //more configuration
             messageRequest.send("userID="+userID+"&targetUserID="+targetUserID+"&latestMessageID="+latestMessageID);
@@ -159,6 +202,9 @@ require_once("template/header.phtml");
         {
             let formData = new FormData();
             formData.append("image", file); //puts file into payload
+            formData.append("userID",userID);
+            formData.append("targetUserID",targetUserID);
+
             let imageRequest = new XMLHttpRequest(); //request for inserting images into db
             imageRequest.onload = function()
             {
@@ -183,6 +229,8 @@ require_once("template/header.phtml");
 
         let formData = new FormData();
         formData.append('image',files[0]); //appends uploaded file
+        formData.append('userID',userID);
+        formData.append('targetUserID',targetUserID);
 
         let imageRequest = new XMLHttpRequest();
         imageRequest.onload = function()

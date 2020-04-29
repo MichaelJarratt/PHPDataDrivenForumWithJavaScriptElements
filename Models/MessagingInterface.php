@@ -61,6 +61,40 @@ class MessagingInterface
     {
         return self::$database->retrieve("SELECT COUNT(*) FROM MessageImages")[0]['COUNT(*)'];
     }
+
+    /*
+     *  create entry in MessageImages associating uploaded image with its message
+     */
+    public static function insertImageMessage($senderID,$recipientID,$fileName,$originalName)
+    {
+        //selects ID of latest message sent by user
+        $latestMessageID = self::$database->retrieve("SELECT messageID FROM Messages WHERE senderID=\"$senderID\" and recipientID=\"$recipientID\" ORDER BY message DESC LIMIT 1")[0]['messageID'];
+        self::$database->update("INSERT INTO MessageImages(messageID, fileName, origionalName) VALUES (\"$latestMessageID\",\"$fileName\",\"$originalName\")");
+    }
+
+    /*
+     * returns true or false if a message of messageID has an associated image
+     */
+    public static function hasImage($messageID)
+    {
+        $output = self::$database->retrieve("SELECT imageID FROM MessageImages WHERE messageID=\"$messageID\"");
+        if(sizeof($output) == 0)
+        { //if message has no associated image
+            return false;
+        }
+        else
+        { //if message does have an associated image
+            return true;
+        }
+    }
+
+    /*
+     * takes messageID as a parameter and returns a tuple containing it's associated image and it's original name
+     */
+    public static function getImage($messageID)
+    {
+        return self::$database->retrieve("SELECT fileName,originalName FROM MessageImages WHERE messageID = \"$messageID\"")[0];
+    }
 }
 
 MessagingInterface::$database = Database::getInstance(); //equivalent of constructor for static field

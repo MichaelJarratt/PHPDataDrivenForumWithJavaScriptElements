@@ -279,3 +279,17 @@
     padding-top: 10px;
     padding-bottom: 10px;
 }
+
+.indexNotification
+{
+    position: fixed;
+    bottom: 5px;
+    right: 5px;
+    border-style: solid;
+    border-radius: 10px;
+    background-color: #cccccc;
+}
+.indexNotification p
+{
+    margin: 5px 2px;
+}

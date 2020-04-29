@@ -102,12 +102,27 @@ require_once("template/header.phtml");
     let latestMessageID = -1; //placeholder, increments to stop unnecessary data being sent from server
     //how messages are handled when received
     //------------------------------------
-    messageRequest.onerror = function()
-    {
-        console.log("error requesting messages")
-    };
     messageRequest.onload = function ()
     {
+        //console.log("scroll height: "+messageArea.scrollHeight); //scroll height is how tall the div is
+        //console.log(messageArea.offsetHeight);
+        //console.log("scroll top: "+messageArea.scrollTop); //scroll top is how far scrolled down the top of the viewed div is (position of the top of the visible div)
+        //messageArea.scrollTop = 0;
+
+        //scrollHeight is how tall the DIV is
+        //scrollTop is the top of the visible div
+        //the div is 377 pixels tall, if height - top is less than 378 then the user is at the bottom of the page
+        let atBottomOfPage = false;
+        if(messageArea.scrollHeight - messageArea.scrollTop < 378) //if user is at the bottom of the page
+        {
+            //console.log("at bottom of page");
+            atBottomOfPage = true;
+        }
+        else
+        {
+            atBottomOfPage = false;
+        }
+
         //console.log("current user: "+userID);
         //console.log("received message data from server");
         let messages = JSON.parse(messageRequest.response); //every message that is returned by php script
@@ -143,6 +158,11 @@ require_once("template/header.phtml");
             messageDiv.appendChild(timeSentP); //adds it to the message div
 
             messageArea.appendChild(messageDiv); //adds message to chat window
+
+            if(atBottomOfPage) //if user is already at bottom of page scroll them down so that the new messages are not offscreen
+            {
+                messageArea.scrollTop = messageArea.scrollHeight;
+            }
         })
     };
     //polls server for new messages
@@ -196,28 +216,6 @@ require_once("template/header.phtml");
     //event listener for "enter" on messageInput, triggers sending of message to server
     messageInput.addEventListener("keydown",function (event)
     {
-        // console.log("key pressed");
-        // let files = fileUpload.files; //gets files list from file upload element
-        // //console.log(files[0]);
-        //
-        // let formData = new FormData();
-        // formData.append('image',files[0]); //appends uploaded file
-        // formData.append('userID',userID);
-        // formData.append('targetUserID',targetUserID);
-        //
-        // let imageRequest = new XMLHttpRequest();
-        // imageRequest.onload = function()
-        // {
-        //     let debug = document.getElementById("debug");
-        //     debug.innerHTML = imageRequest.response;
-        //     //console.log(imageRequest.response);
-        // };
-        // imageRequest.open("POST","Models/scripts/image.php");
-        // //imageRequest.setRequestHeader("Content-type","multipart/form-data"); //send files
-        // imageRequest.send(formData);
-
-        //fetch("Models/scripts/sendMessage.php",{method: 'POST', body formData})
-
         var keycode = event.keyCode || event.which; //I have no idea why or how this works but it does
         if(keycode == '13' && (fileUpload.files.length !== 0 || messageInput.value.length !== 0)) //if user pressed enter
         {

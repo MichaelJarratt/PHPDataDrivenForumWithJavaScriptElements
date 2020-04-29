@@ -42,6 +42,7 @@ class MessagingInterface
      */
     public static function insertMessage($senderID,$recipientID,$message)
     {
+        $message = addslashes($message); //escapes any characters that need escaping
         self::$database->update("INSERT INTO Messages(senderID, recipientID, message) VALUES(\"$senderID\",\"$recipientID\",\"$message\")");
     }
 

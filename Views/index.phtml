@@ -57,6 +57,10 @@
     </div>"
 ?>
 
+<div id="indexNotification" class="indexNotification" hidden> <!-- fixed element in bottom right that is made visible when notifications are received -->
+    <p>You have new messages!</p>
+</div>
+
 <!--contains all posts displayed on index-->
 <div id="postContainer" class="col-sm-8">
 <?php
@@ -92,6 +96,7 @@ foreach ($posts as $post) //last post is replaced by previous post, meaning prev
 </div>
 
 <script>
+    let userID = <?php if(isset($_SESSION['userID'])){echo $_SESSION['userID'];} else echo "-1" ?>; //if user is logged in echo underID, else echo -1, causes no errors but is invalid
     let noPosts = <?php echo count($posts); ?>; //tracks number of posts on page (used to remove duplicate posts)
 
     //console.log(noPosts);
@@ -156,18 +161,31 @@ foreach ($posts as $post) //last post is replaced by previous post, meaning prev
             '                           </div>'+
             '                        </div>';
 
-
-            // "       <div class=\"container-fluid postListing\">" +
-            // "            <h4><a href=\"Post.php?postID="+post['userID']+">"+post['title']+"</a></h4>" +
-            // "                <p>" +
-            //                      post['content']+
-            // "                </p>"+
-            // "                <div id='statsBar' class='row' style='color: #2aabd2'>\n" +
-            // "                        <p style='display:inline-block'>by <a href='userPage.php?userID="+post['userID']+"">+post['userName']+"</a></p>" +
-            // "                        <p style='display:inline-block' class='pull-right'>"+post['catName']+"</p>" +
-            // "                </div>" +
-            // "        </div>"
     }
+
+    notificationRequest = new XMLHttpRequest();
+    //handler for getting notification data
+    notificationRequest.onload = function ()
+    {
+        if(JSON.parse(notificationRequest.response).length !== 0) // if user has any notifications
+        {
+            let indexNotificationBox = document.getElementById("indexNotification");
+            indexNotificationBox.removeAttribute("hidden");
+            //console.log("you have messages");
+        }
+    };
+
+    function notificationPollLoop()
+    {
+        notificationRequest.open("POST","../Models/scripts/getNotifications.php");
+
+        let formData = new FormData(); //data to send to getNotifications
+        formData.append("userID",userID);
+        notificationRequest.send(formData);
+
+        setTimeout(notificationPollLoop,5000); //loops every 5 seconds
+    }
+    notificationPollLoop(); //sets loop going
 
 </script>
 

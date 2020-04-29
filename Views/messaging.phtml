@@ -42,11 +42,23 @@ require_once("template/header.phtml");
 
         </div>
         <textarea class="messageInput" id="messageInput" placeholder="Write a message.."></textarea>
+        <label for="fileUpload">Upload Image</label>
+        <input id="fileUpload" type="file" accept="image/*" name="fileUpload">
         <p id="typingStatusOutput" class="typingStatus"></p>
+        <div id="debug"></div>
     </div>
     <!-- end of chat window -->
 </div>
 <script>
+
+    let fileUpload = document.getElementById("fileUpload");
+    fileUpload.multiple = false;
+
+
+
+
+    ///move down after finishing file stuff
+
     let userID = <?php echo $_SESSION['userID'] ?>; //puts current users ID into script
     let targetUserID = -1; //placeholder value
     let contactsWindow = document.getElementById("contactsListDiv"); //div that shows all of users contacts
@@ -141,6 +153,21 @@ require_once("template/header.phtml");
         messageSendRequest.send("userID=" + userID + "&targetUserID=" + targetUserID + "&message=" + messageInput.value);
         //console.log("userID=" + userID + "&targetID=" + targetUserID + "&message=" + messageInput.value);
         messageInput.value = ""; //empties input box
+
+        let files = fileUpload.files; //gets files list from file upload element
+        if(files.length !== 0) //if a file has been chosen
+        {
+            let formData = new FormData();
+            formData.append("image", file); //puts file into payload
+            let imageRequest = new XMLHttpRequest(); //request for inserting images into db
+            imageRequest.onload = function()
+            {
+                console.log(imageRequest.response);
+            };
+            imageRequest.open("POST","Models/scripts/sendImage.php");
+            imageRequest.send(formData); //sends file to script
+        }
+
     }
     //################################ end send/receive message functions
     //###################################################################
@@ -150,24 +177,46 @@ require_once("template/header.phtml");
     //event listener for "enter" on messageInput, triggers sending of message to server
     messageInput.addEventListener("keydown",function (event)
     {
-        var keycode = event.keyCode || event.which; //I have no idea why or how this works but it does
-        if(keycode == '13') //if user pressed enter
+        console.log("key pressed");
+        let files = fileUpload.files; //gets files list from file upload element
+        //console.log(files[0]);
+
+        let formData = new FormData();
+        formData.append('image',files[0]); //appends uploaded file
+
+        let imageRequest = new XMLHttpRequest();
+        imageRequest.onload = function()
         {
-            sendMessage(); //trigger sending message to server
+            let debug = document.getElementById("debug");
+            debug.innerHTML = imageRequest.response;
+            //console.log(imageRequest.response);
+        };
+        imageRequest.open("POST","Models/scripts/image.php");
+        //imageRequest.setRequestHeader("Content-type","multipart/form-data"); //send files
+        imageRequest.send(formData);
+
+        //fetch("Models/scripts/sendMessage.php",{method: 'POST', body formData})
+
+        var keycode = event.keyCode || event.which; //I have no idea why or how this works but it does
+        if(keycode == '13' && messageInput.value.length !== 0) //if user pressed enter
+        {
+            //sendMessage(); //trigger sending message to server
             //console.log("enter pressed");
+            if(event.preventDefault) //stops extra blank line being entered by browser
+                event.preventDefault();
         }
     });
 
     //event listener for user selecting textarea (user is typing)
     messageInput.addEventListener("focusin",function ()
     {
-        console.log("typing");
+        //console.log("typing");
         setTypingStatus(1);
     });
     //event listener for user deselecting textarea (user is not longer typing)
     messageInput.addEventListener("focusout",function ()
     {
-        console.log("no longer typing");
+        //console.log("no longer typing");
         setTypingStatus(0)
     });
     //function which sets typing status in DB

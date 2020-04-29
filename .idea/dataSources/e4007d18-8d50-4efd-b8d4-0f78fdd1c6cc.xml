@@ -914,459 +914,507 @@
     <table id="231" parent="4" name="MessageContacts">
       <Comment>very simple table for associating user IDs in a contacts list</Comment>
     </table>
-    <table id="232" parent="4" name="Messages"/>
-    <table id="233" parent="4" name="PostComments"/>
-    <table id="234" parent="4" name="PostImages"/>
-    <table id="235" parent="4" name="Posts"/>
-    <table id="236" parent="4" name="TypingStatus"/>
-    <table id="237" parent="4" name="Users"/>
-    <column id="238" parent="228" name="catID">
+    <table id="232" parent="4" name="MessageImages"/>
+    <table id="233" parent="4" name="Messages"/>
+    <table id="234" parent="4" name="PostComments"/>
+    <table id="235" parent="4" name="PostImages"/>
+    <table id="236" parent="4" name="Posts"/>
+    <table id="237" parent="4" name="TypingStatus"/>
+    <table id="238" parent="4" name="Users"/>
+    <column id="239" parent="228" name="catID">
       <Position>1</Position>
       <DataType>int(10) unsigned|0s</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>1</SequenceIdentity>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="239" parent="228" name="catName">
+    <column id="240" parent="228" name="catName">
       <Position>2</Position>
       <DataType>varchar(45)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <index id="240" parent="228" name="catID_UNIQUE">
+    <index id="241" parent="228" name="catID_UNIQUE">
       <ColNames>catID</ColNames>
       <Unique>1</Unique>
       <Type>btree</Type>
     </index>
-    <key id="241" parent="228" name="PRIMARY">
+    <key id="242" parent="228" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>catID</ColNames>
       <Primary>1</Primary>
     </key>
-    <key id="242" parent="228" name="catID_UNIQUE">
+    <key id="243" parent="228" name="catID_UNIQUE">
       <ColNames>catID</ColNames>
       <UnderlyingIndexName>catID_UNIQUE</UnderlyingIndexName>
     </key>
-    <column id="243" parent="229" name="parent">
+    <column id="244" parent="229" name="parent">
       <Position>1</Position>
       <DataType>int(10) unsigned|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="244" parent="229" name="child">
+    <column id="245" parent="229" name="child">
       <Position>2</Position>
       <DataType>int(10) unsigned|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <index id="245" parent="229" name="childComment_idx">
+    <index id="246" parent="229" name="childComment_idx">
       <ColNames>child</ColNames>
       <Type>btree</Type>
     </index>
-    <key id="246" parent="229" name="PRIMARY">
+    <key id="247" parent="229" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>parent
 child</ColNames>
       <Primary>1</Primary>
     </key>
-    <foreign-key id="247" parent="229" name="parentComment">
+    <foreign-key id="248" parent="229" name="parentComment">
       <ColNames>parent</ColNames>
       <RefTableName>Comments</RefTableName>
       <RefColNames>commentID</RefColNames>
     </foreign-key>
-    <foreign-key id="248" parent="229" name="childComment">
+    <foreign-key id="249" parent="229" name="childComment">
       <ColNames>child</ColNames>
       <RefTableName>Comments</RefTableName>
       <RefColNames>commentID</RefColNames>
     </foreign-key>
-    <column id="249" parent="230" name="commentID">
+    <column id="250" parent="230" name="commentID">
       <Position>1</Position>
       <DataType>int(10) unsigned|0s</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>1</SequenceIdentity>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="250" parent="230" name="commentor">
+    <column id="251" parent="230" name="commentor">
       <Position>2</Position>
       <DataType>int(10) unsigned|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="251" parent="230" name="content">
+    <column id="252" parent="230" name="content">
       <Position>3</Position>
       <DataType>varchar(500)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="252" parent="230" name="likes">
+    <column id="253" parent="230" name="likes">
       <Position>4</Position>
       <DataType>int(10) unsigned|0s</DataType>
       <NotNull>1</NotNull>
       <DefaultExpression>0</DefaultExpression>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="253" parent="230" name="dislikes">
+    <column id="254" parent="230" name="dislikes">
       <Position>5</Position>
       <DataType>int(10) unsigned|0s</DataType>
       <NotNull>1</NotNull>
       <DefaultExpression>0</DefaultExpression>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="254" parent="230" name="archived">
+    <column id="255" parent="230" name="archived">
       <Position>6</Position>
       <DataType>tinyint(4)|0s</DataType>
       <NotNull>1</NotNull>
       <DefaultExpression>0</DefaultExpression>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="255" parent="230" name="deleted">
+    <column id="256" parent="230" name="deleted">
       <Position>7</Position>
       <DataType>tinyint(4)|0s</DataType>
       <NotNull>1</NotNull>
       <DefaultExpression>0</DefaultExpression>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <index id="256" parent="230" name="userID_comments_idx">
+    <index id="257" parent="230" name="userID_comments_idx">
       <ColNames>commentor</ColNames>
       <Type>btree</Type>
     </index>
-    <key id="257" parent="230" name="PRIMARY">
+    <key id="258" parent="230" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>commentID</ColNames>
       <Primary>1</Primary>
     </key>
-    <foreign-key id="258" parent="230" name="userID_comments">
+    <foreign-key id="259" parent="230" name="userID_comments">
       <ColNames>commentor</ColNames>
       <RefTableName>Users</RefTableName>
       <RefColNames>userID</RefColNames>
     </foreign-key>
-    <column id="259" parent="231" name="col1">
+    <column id="260" parent="231" name="col1">
       <Position>1</Position>
       <DataType>int(11) unsigned|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="260" parent="231" name="col2">
+    <column id="261" parent="231" name="col2">
       <Position>2</Position>
       <DataType>int(11) unsigned|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <index id="261" parent="231" name="contactUserID2_idx">
+    <index id="262" parent="231" name="contactUserID2_idx">
       <ColNames>col2</ColNames>
       <Type>btree</Type>
     </index>
-    <key id="262" parent="231" name="PRIMARY">
+    <key id="263" parent="231" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>col1
 col2</ColNames>
       <Primary>1</Primary>
     </key>
-    <foreign-key id="263" parent="231" name="contactUserID1">
+    <foreign-key id="264" parent="231" name="contactUserID1">
       <ColNames>col1</ColNames>
       <RefTableName>Users</RefTableName>
       <RefColNames>userID</RefColNames>
     </foreign-key>
-    <foreign-key id="264" parent="231" name="contactUserID2">
+    <foreign-key id="265" parent="231" name="contactUserID2">
       <ColNames>col2</ColNames>
       <RefTableName>Users</RefTableName>
       <RefColNames>userID</RefColNames>
     </foreign-key>
-    <column id="265" parent="232" name="messageID">
+    <column id="266" parent="232" name="imageID">
+      <Position>1</Position>
+      <DataType>int(11) unsigned|0s</DataType>
+      <NotNull>1</NotNull>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <column id="267" parent="232" name="messageID">
+      <Position>2</Position>
+      <DataType>int(11) unsigned|0s</DataType>
+      <NotNull>1</NotNull>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <column id="268" parent="232" name="fileName">
+      <Position>3</Position>
+      <DataType>text|0s</DataType>
+      <NotNull>1</NotNull>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <column id="269" parent="232" name="origionalName">
+      <Position>4</Position>
+      <DataType>text|0s</DataType>
+      <NotNull>1</NotNull>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <index id="270" parent="232" name="imageID_UNIQUE">
+      <ColNames>imageID</ColNames>
+      <Unique>1</Unique>
+      <Type>btree</Type>
+    </index>
+    <index id="271" parent="232" name="MessageImagesMessageID_idx">
+      <ColNames>messageID</ColNames>
+      <Type>btree</Type>
+    </index>
+    <key id="272" parent="232" name="PRIMARY">
+      <NameSurrogate>1</NameSurrogate>
+      <ColNames>imageID</ColNames>
+      <Primary>1</Primary>
+    </key>
+    <key id="273" parent="232" name="imageID_UNIQUE">
+      <ColNames>imageID</ColNames>
+      <UnderlyingIndexName>imageID_UNIQUE</UnderlyingIndexName>
+    </key>
+    <foreign-key id="274" parent="232" name="MessageImagesMessageID">
+      <ColNames>messageID</ColNames>
+      <RefTableName>Messages</RefTableName>
+      <RefColNames>messageID</RefColNames>
+    </foreign-key>
+    <column id="275" parent="233" name="messageID">
       <Position>1</Position>
       <DataType>int(11) unsigned|0s</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>1</SequenceIdentity>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="266" parent="232" name="senderID">
+    <column id="276" parent="233" name="senderID">
       <Position>2</Position>
       <DataType>int(11) unsigned|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="267" parent="232" name="recipientID">
+    <column id="277" parent="233" name="recipientID">
       <Position>3</Position>
       <DataType>int(11) unsigned|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="268" parent="232" name="message">
+    <column id="278" parent="233" name="message">
       <Position>4</Position>
       <DataType>text|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="269" parent="232" name="received">
+    <column id="279" parent="233" name="received">
       <Position>5</Position>
       <DataType>tinyint(4)|0s</DataType>
       <NotNull>1</NotNull>
       <DefaultExpression>0</DefaultExpression>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="270" parent="232" name="timeSent">
+    <column id="280" parent="233" name="timeSent">
       <Position>6</Position>
       <DataType>datetime|0s</DataType>
       <NotNull>1</NotNull>
       <DefaultExpression>CURRENT_TIMESTAMP</DefaultExpression>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <key id="271" parent="232" name="PRIMARY">
+    <key id="281" parent="233" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>messageID</ColNames>
       <Primary>1</Primary>
     </key>
-    <column id="272" parent="233" name="post">
+    <column id="282" parent="234" name="post">
       <Position>1</Position>
       <DataType>int(10) unsigned|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="273" parent="233" name="comment">
+    <column id="283" parent="234" name="comment">
       <Position>2</Position>
       <DataType>int(10) unsigned|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <index id="274" parent="233" name="postChildComment_idx">
+    <index id="284" parent="234" name="postChildComment_idx">
       <ColNames>comment</ColNames>
       <Type>btree</Type>
     </index>
-    <key id="275" parent="233" name="PRIMARY">
+    <key id="285" parent="234" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>post
 comment</ColNames>
       <Primary>1</Primary>
     </key>
-    <foreign-key id="276" parent="233" name="parentPost">
+    <foreign-key id="286" parent="234" name="parentPost">
       <ColNames>post</ColNames>
       <RefTableName>Posts</RefTableName>
       <RefColNames>postID</RefColNames>
     </foreign-key>
-    <foreign-key id="277" parent="233" name="postChildComment">
+    <foreign-key id="287" parent="234" name="postChildComment">
       <ColNames>comment</ColNames>
       <RefTableName>Comments</RefTableName>
       <RefColNames>commentID</RefColNames>
     </foreign-key>
-    <column id="278" parent="234" name="imageID">
+    <column id="288" parent="235" name="imageID">
       <Position>1</Position>
       <DataType>int(10) unsigned|0s</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>1</SequenceIdentity>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="279" parent="234" name="postID">
+    <column id="289" parent="235" name="postID">
       <Position>2</Position>
       <DataType>int(10) unsigned|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="280" parent="234" name="imageName">
+    <column id="290" parent="235" name="imageName">
       <Position>3</Position>
       <DataType>varchar(100)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <index id="281" parent="234" name="post_idx">
+    <index id="291" parent="235" name="post_idx">
       <ColNames>postID</ColNames>
       <Type>btree</Type>
     </index>
-    <key id="282" parent="234" name="PRIMARY">
+    <key id="292" parent="235" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>imageID</ColNames>
       <Primary>1</Primary>
     </key>
-    <foreign-key id="283" parent="234" name="post">
+    <foreign-key id="293" parent="235" name="post">
       <ColNames>postID</ColNames>
       <RefTableName>Posts</RefTableName>
       <RefColNames>postID</RefColNames>
     </foreign-key>
-    <column id="284" parent="235" name="postID">
+    <column id="294" parent="236" name="postID">
       <Position>1</Position>
       <DataType>int(10) unsigned|0s</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>1</SequenceIdentity>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="285" parent="235" name="poster">
+    <column id="295" parent="236" name="poster">
       <Position>2</Position>
       <DataType>int(10) unsigned|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="286" parent="235" name="category">
+    <column id="296" parent="236" name="category">
       <Position>3</Position>
       <DataType>int(10) unsigned|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="287" parent="235" name="title">
+    <column id="297" parent="236" name="title">
       <Position>4</Position>
       <DataType>varchar(300)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="288" parent="235" name="content">
+    <column id="298" parent="236" name="content">
       <Position>5</Position>
       <DataType>varchar(2000)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="289" parent="235" name="datePosted">
+    <column id="299" parent="236" name="datePosted">
       <Position>6</Position>
       <DataType>datetime|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="290" parent="235" name="deleted">
+    <column id="300" parent="236" name="deleted">
       <Position>7</Position>
       <DataType>tinyint(4)|0s</DataType>
       <NotNull>1</NotNull>
       <DefaultExpression>0</DefaultExpression>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="291" parent="235" name="archived">
+    <column id="301" parent="236" name="archived">
       <Position>8</Position>
       <DataType>tinyint(4)|0s</DataType>
       <NotNull>1</NotNull>
       <DefaultExpression>0</DefaultExpression>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="292" parent="235" name="views">
+    <column id="302" parent="236" name="views">
       <Position>9</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <DefaultExpression>0</DefaultExpression>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="293" parent="235" name="likes">
+    <column id="303" parent="236" name="likes">
       <Position>10</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <DefaultExpression>0</DefaultExpression>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="294" parent="235" name="dislikes">
+    <column id="304" parent="236" name="dislikes">
       <Position>11</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <DefaultExpression>0</DefaultExpression>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <index id="295" parent="235" name="userID_idx">
+    <index id="305" parent="236" name="userID_idx">
       <ColNames>poster</ColNames>
       <Type>btree</Type>
     </index>
-    <index id="296" parent="235" name="category_idx">
+    <index id="306" parent="236" name="category_idx">
       <ColNames>category</ColNames>
       <Type>btree</Type>
     </index>
-    <key id="297" parent="235" name="PRIMARY">
+    <key id="307" parent="236" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>postID</ColNames>
       <Primary>1</Primary>
     </key>
-    <foreign-key id="298" parent="235" name="userID">
+    <foreign-key id="308" parent="236" name="userID">
       <ColNames>poster</ColNames>
       <RefTableName>Users</RefTableName>
       <RefColNames>userID</RefColNames>
     </foreign-key>
-    <foreign-key id="299" parent="235" name="category">
+    <foreign-key id="309" parent="236" name="category">
       <ColNames>category</ColNames>
       <RefTableName>Categories</RefTableName>
       <RefColNames>catID</RefColNames>
     </foreign-key>
-    <column id="300" parent="236" name="senderID">
+    <column id="310" parent="237" name="senderID">
       <Position>1</Position>
       <DataType>int(11) unsigned|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="301" parent="236" name="recipientID">
+    <column id="311" parent="237" name="recipientID">
       <Position>2</Position>
       <DataType>int(11) unsigned|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="302" parent="236" name="status">
+    <column id="312" parent="237" name="status">
       <Position>3</Position>
       <DataType>tinyint(4)|0s</DataType>
       <NotNull>1</NotNull>
       <DefaultExpression>0</DefaultExpression>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <index id="303" parent="236" name="TypingStatus_RecipientID_idx">
+    <index id="313" parent="237" name="TypingStatus_RecipientID_idx">
       <ColNames>recipientID</ColNames>
       <Type>btree</Type>
     </index>
-    <key id="304" parent="236" name="PRIMARY">
+    <key id="314" parent="237" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>senderID
 recipientID</ColNames>
       <Primary>1</Primary>
     </key>
-    <foreign-key id="305" parent="236" name="TypingStatus_SenderID">
+    <foreign-key id="315" parent="237" name="TypingStatus_SenderID">
       <ColNames>senderID</ColNames>
       <RefTableName>Users</RefTableName>
       <RefColNames>userID</RefColNames>
     </foreign-key>
-    <foreign-key id="306" parent="236" name="TypingStatus_RecipientID">
+    <foreign-key id="316" parent="237" name="TypingStatus_RecipientID">
       <ColNames>recipientID</ColNames>
       <RefTableName>Users</RefTableName>
       <RefColNames>userID</RefColNames>
     </foreign-key>
-    <column id="307" parent="237" name="userID">
+    <column id="317" parent="238" name="userID">
       <Position>1</Position>
       <DataType>int(11) unsigned|0s</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>1</SequenceIdentity>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="308" parent="237" name="userName">
+    <column id="318" parent="238" name="userName">
       <Position>2</Position>
       <DataType>varchar(40)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="309" parent="237" name="pwHash">
+    <column id="319" parent="238" name="pwHash">
       <Position>3</Position>
       <DataType>varchar(200)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="310" parent="237" name="dateJoined">
+    <column id="320" parent="238" name="dateJoined">
       <Position>4</Position>
       <DataType>datetime|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="311" parent="237" name="email">
+    <column id="321" parent="238" name="email">
       <Position>5</Position>
       <DataType>varchar(50)|0s</DataType>
       <NotNull>1</NotNull>
       <DefaultExpression>&apos;there should be an email here&apos;</DefaultExpression>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <index id="312" parent="237" name="Users_userName_uindex">
+    <index id="322" parent="238" name="Users_userName_uindex">
       <ColNames>userName</ColNames>
       <Unique>1</Unique>
       <Type>btree</Type>
     </index>
-    <index id="313" parent="237" name="Users_email_uindex">
+    <index id="323" parent="238" name="Users_email_uindex">
       <ColNames>email</ColNames>
       <Unique>1</Unique>
       <Type>btree</Type>
     </index>
-    <key id="314" parent="237" name="PRIMARY">
+    <key id="324" parent="238" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>userID</ColNames>
       <Primary>1</Primary>
     </key>
-    <key id="315" parent="237" name="Users_userName_uindex">
+    <key id="325" parent="238" name="Users_userName_uindex">
       <ColNames>userName</ColNames>
       <UnderlyingIndexName>Users_userName_uindex</UnderlyingIndexName>
     </key>
-    <key id="316" parent="237" name="Users_email_uindex">
+    <key id="326" parent="238" name="Users_email_uindex">
       <ColNames>email</ColNames>
       <UnderlyingIndexName>Users_email_uindex</UnderlyingIndexName>
     </key>

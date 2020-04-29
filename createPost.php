@@ -20,7 +20,7 @@ if(isset($_POST['submit']))
     $_POST['titleCheck'] = $postMaker->checkTitle($_POST['title']);
     $_POST['contentCheck'] = $postMaker->checkContent($_POST['content']);
     //if(isset($_FILES['image']['error'])) //if an image is uploaded
-    if($_FILES['image']['error']!=4)
+    if($_FILES['image']['error']!=4) //if user has uploaded an image
     {
         $_POST['imageCheck'] = $postMaker->checkImage($_FILES['image']);
         //var_dump($_POST['imageCheck']);
@@ -50,6 +50,7 @@ if(isset($_POST['submit']))
     {
         if($_POST['imageCheck'] == true && $_POST['sizeCheck'] == true) //if post has an image
         {
+            //var_dump($_FILES);
             $image = basename($_FILES['image']['name']);
             $postMaker->commitImagePost($_SESSION['userID'], $_POST['category'], $_POST['title'], $_POST['content'],$image);
         }

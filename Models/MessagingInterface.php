@@ -53,6 +53,14 @@ class MessagingInterface
     {
         return self::$database->retrieve("SELECT senderID, COUNT(messageID) FROM Messages WHERE recipientID = \"$userID\" AND received = 0 GROUP BY senderID");
     }
+
+    /*
+     * returns how many images exist in the database so the correct incremental name can be chosen
+     */
+    public static function getNumberOfImages()
+    {
+        return self::$database->retrieve("SELECT COUNT(*) FROM MessageImages")[0]['COUNT(*)'];
+    }
 }
 
 MessagingInterface::$database = Database::getInstance(); //equivalent of constructor for static field

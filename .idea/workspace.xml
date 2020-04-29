@@ -2,11 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="ed39860b-6fc6-46fb-8454-bf0789b9e0e7" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/e4007d18-8d50-4efd-b8d4-0f78fdd1c6cc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/e4007d18-8d50-4efd-b8d4-0f78fdd1c6cc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Models/MessagingInterface.php" beforeDir="false" afterPath="$PROJECT_DIR$/Models/MessagingInterface.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Models/scripts/getChatMessages.php" beforeDir="false" afterPath="$PROJECT_DIR$/Models/scripts/getChatMessages.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Models/scripts/image.php" beforeDir="false" afterPath="$PROJECT_DIR$/Models/scripts/image.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Models/scripts/sendImage.php" beforeDir="false" afterPath="$PROJECT_DIR$/Models/scripts/sendImage.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Views/messaging.phtml" beforeDir="false" afterPath="$PROJECT_DIR$/Views/messaging.phtml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/css/my-style.css" beforeDir="false" afterPath="$PROJECT_DIR$/css/my-style.css" afterDir="false" />
@@ -194,7 +191,7 @@
       <workItem from="1587142511454" duration="49000" />
       <workItem from="1587142624330" duration="11055000" />
       <workItem from="1587667526379" duration="32000" />
-      <workItem from="1587911284320" duration="52002000" />
+      <workItem from="1587911284320" duration="56589000" />
     </task>
     <servers />
   </component>

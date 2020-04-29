@@ -68,8 +68,8 @@ class MessagingInterface
     public static function insertImageMessage($senderID,$recipientID,$fileName,$originalName)
     {
         //selects ID of latest message sent by user
-        $latestMessageID = self::$database->retrieve("SELECT messageID FROM Messages WHERE senderID=\"$senderID\" and recipientID=\"$recipientID\" ORDER BY message DESC LIMIT 1")[0]['messageID'];
-        self::$database->update("INSERT INTO MessageImages(messageID, fileName, origionalName) VALUES (\"$latestMessageID\",\"$fileName\",\"$originalName\")");
+        $latestMessageID = self::$database->retrieve("SELECT messageID FROM Messages WHERE senderID=\"$senderID\" and recipientID=\"$recipientID\" ORDER BY messageID DESC LIMIT 1")[0]['messageID'];
+        self::$database->update("INSERT INTO MessageImages(messageID, fileName, originalName) VALUES (\"$latestMessageID\",\"$fileName\",\"$originalName\")");
     }
 
     /*

@@ -195,6 +195,11 @@
     font-style: oblique;
 }
 
+.chatWindow
+{
+    padding-right: 0px;
+}
+
 .chatMessage
 {
     border-style: solid;
@@ -204,6 +209,19 @@
     margin-bottom: 5px;
     min-height: 5ch;
 }
+
+.chatMessage.sent img /* puts images sent by user on the right of the message bubble */
+{
+    display: block;
+    margin-left: auto;
+}
+
+.chatMessage.received img /* puts images received on the left side of the message bubble */
+{
+    display: block;
+    margin-right: auto;
+}
+
 .received
 {
     text-align: left;
@@ -224,6 +242,14 @@
 .timeSent
 {
     font-size: 70%;
+}
+
+#messageArea
+{
+    width: 100%;
+    height: 50vh;
+    overflow-x: hidden;
+    padding-right: 0px;
 }
 
 .messageInput

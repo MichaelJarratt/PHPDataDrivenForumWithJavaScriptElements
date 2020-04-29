@@ -2,10 +2,10 @@
 require_once("template/header.phtml");
 ?>
 
-<div class="container-fluid"> <!-- container which holds either contacts or chat window -->
+<div> <!-- container which holds either contacts or chat window -->
 
     <!-- beginning of contacts listing -->
-    <div id="contactsListDiv" class="container-fluid,contactsDiv">
+    <div id="contactsListDiv" class="container-fluid contactsDiv">
         <?php
         if(sizeof($view->contacts) == 0) //no contacts
         {
@@ -35,7 +35,7 @@ require_once("template/header.phtml");
     <!-- end of contacts listing -->
 
     <!-- beginning of chat window -->
-    <div id="chatWindowDiv" class="container-fluid,chatWindow" hidden>
+    <div id="chatWindowDiv" class="chatWindow" hidden>
         <h2 id="messagingTargetTitle"></h2> <!-- will display chat targets username -->
         <h3 class="clickableText" onclick="returnToContactsList()"><- back to contacts</h3>
         <div id="messageArea" class="container-fluid"> <!-- will hold the chat -->
@@ -50,15 +50,6 @@ require_once("template/header.phtml");
     <!-- end of chat window -->
 </div>
 <script>
-
-    let fileUpload = document.getElementById("fileUpload");
-    fileUpload.multiple = false;
-
-
-
-
-    ///move down after finishing file stuff
-
     let userID = <?php echo $_SESSION['userID'] ?>; //puts current users ID into script
     let targetUserID = -1; //placeholder value
     let contactsWindow = document.getElementById("contactsListDiv"); //div that shows all of users contacts
@@ -67,8 +58,9 @@ require_once("template/header.phtml");
     let messageArea = document.getElementById("messageArea"); //div which will contain the messages
     let chatWindowOpen = false; //when chat window is closed newMessagePollLoop will terminate
     let contactIDs = <?php echo json_encode($contactIDs) ?>; //puts array of contact IDs into javascript (used for message notifications)
-    //console.log(<?php echo json_encode($contactIDs) ?>);
     let messageInput = document.getElementById("messageInput"); //textarea user types messages into
+    let fileUpload = document.getElementById("fileUpload"); // reference of file upload input
+    fileUpload.multiple = false; //sets the file upload so that multiple files can't be collected
 
     //############################ begin open/close chat window functions
     //###################################################################
@@ -126,30 +118,8 @@ require_once("template/header.phtml");
                 latestMessageID = parseInt(message['messageID']); //increment latestMessageID
             }
 
-            // put messages into messageArea
-            // if(parseInt(message['senderID']) === userID) //if message was sent by current user
-            // {
-            //     messageArea.innerHTML += "<div class='chatMessage sent'>"+message['message']+"</p><p class='timeSent'>sent: "+message['timeSent']+"</p>"
-            //     if(typeof message['fileName'] != 'undefined') //js equivalent of "isset()"
-            //     {
-            //         messageArea.innerHTML+= `<img src='../images/${message['fileName']}' >`
-            //     }
-            //     messageArea.innerHTML += "</div>"
-            // }
-            // else //if message was sent by another user
-            // {
-            //     messageArea.innerHTML += "<div class='chatMessage received'><p>"+message['message']+"</p><p class='timeSent'>sent: "+message['timeSent']+"</p>"
-            //     if(typeof message['fileName'] != 'undefined') //js equivalent of "isset()"
-            //     {
-            //         messageArea.innerHTML+= `<img src='../images/${message['fileName']}' >`
-            //     }
-            //     messageArea.innerHTML += "</div>"
-            // }
-            //console.log("received message");
-
-            console.log(message['senderID']);
-
-            messageDiv = document.createElement("div"); //creates div that will hold the message
+            // this is where the chat bubbles are created and populated
+            let messageDiv = document.createElement("div"); //creates div that will hold the message
             messageDiv.classList.add("chatMessage"); //adds the class chatMessage
             if(parseInt(message['senderID']) === userID) //if message was sent by current user
                 messageDiv.classList.add("sent");
@@ -163,6 +133,7 @@ require_once("template/header.phtml");
                 let image = document.createElement("img");
                 image.src = "images/"+message['fileName'];
                 image.classList.add("messageImage");
+                image.alt = message['originalName']; //names the image by it's original name when uploaded
                 messageDiv.appendChild(image);
             }
 
@@ -201,17 +172,19 @@ require_once("template/header.phtml");
         if(files.length !== 0) //if a file has been chosen
         {
             let formData = new FormData();
-            formData.append("image", file); //puts file into payload
+            formData.append("image", files[0]); //puts file into payload
             formData.append("userID",userID);
             formData.append("targetUserID",targetUserID);
 
             let imageRequest = new XMLHttpRequest(); //request for inserting images into db
             imageRequest.onload = function()
             {
-                console.log(imageRequest.response);
+                let debug = document.getElementById("debug");
+                debug.innerHTML = imageRequest.response;
             };
             imageRequest.open("POST","Models/scripts/sendImage.php");
             imageRequest.send(formData); //sends file to script
+            fileUpload.value = null; //resets input
         }
 
     }
@@ -223,33 +196,32 @@ require_once("template/header.phtml");
     //event listener for "enter" on messageInput, triggers sending of message to server
     messageInput.addEventListener("keydown",function (event)
     {
-        console.log("key pressed");
-        let files = fileUpload.files; //gets files list from file upload element
-        //console.log(files[0]);
-
-        let formData = new FormData();
-        formData.append('image',files[0]); //appends uploaded file
-        formData.append('userID',userID);
-        formData.append('targetUserID',targetUserID);
-
-        let imageRequest = new XMLHttpRequest();
-        imageRequest.onload = function()
-        {
-            let debug = document.getElementById("debug");
-            debug.innerHTML = imageRequest.response;
-            //console.log(imageRequest.response);
-        };
-        imageRequest.open("POST","Models/scripts/image.php");
-        //imageRequest.setRequestHeader("Content-type","multipart/form-data"); //send files
-        imageRequest.send(formData);
+        // console.log("key pressed");
+        // let files = fileUpload.files; //gets files list from file upload element
+        // //console.log(files[0]);
+        //
+        // let formData = new FormData();
+        // formData.append('image',files[0]); //appends uploaded file
+        // formData.append('userID',userID);
+        // formData.append('targetUserID',targetUserID);
+        //
+        // let imageRequest = new XMLHttpRequest();
+        // imageRequest.onload = function()
+        // {
+        //     let debug = document.getElementById("debug");
+        //     debug.innerHTML = imageRequest.response;
+        //     //console.log(imageRequest.response);
+        // };
+        // imageRequest.open("POST","Models/scripts/image.php");
+        // //imageRequest.setRequestHeader("Content-type","multipart/form-data"); //send files
+        // imageRequest.send(formData);
 
         //fetch("Models/scripts/sendMessage.php",{method: 'POST', body formData})
 
         var keycode = event.keyCode || event.which; //I have no idea why or how this works but it does
-        if(keycode == '13' && messageInput.value.length !== 0) //if user pressed enter
+        if(keycode == '13' && (fileUpload.files.length !== 0 || messageInput.value.length !== 0)) //if user pressed enter
         {
-            //sendMessage(); //trigger sending message to server
-            //console.log("enter pressed");
+            sendMessage(); //trigger sending message to server
             if(event.preventDefault) //stops extra blank line being entered by browser
                 event.preventDefault();
         }

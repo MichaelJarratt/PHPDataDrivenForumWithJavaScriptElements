@@ -58,7 +58,7 @@
 ?>
 
 <div id="indexNotification" class="indexNotification" hidden> <!-- fixed element in bottom right that is made visible when notifications are received -->
-    <p>You have new messages!</p>
+
 </div>
 
 <!--contains all posts displayed on index-->
@@ -167,11 +167,30 @@ foreach ($posts as $post) //last post is replaced by previous post, meaning prev
     //handler for getting notification data
     notificationRequest.onload = function ()
     {
-        if(JSON.parse(notificationRequest.response).length !== 0) // if user has any notifications
+        let notifications = JSON.parse(notificationRequest.response);
+        if(notifications.length !== 0) // if user has any notifications
         {
-            let indexNotificationBox = document.getElementById("indexNotification");
-            indexNotificationBox.removeAttribute("hidden");
-            //console.log("you have messages");
+            let noMessages = 0; //initialises count for messages
+            notifications.forEach(function (notification) //counts up number of messages
+            {
+                noMessages+= parseInt(notification['messageCount']); //parsing because SQL returns the integer as string
+            });
+
+            let message = "You have "+noMessages+" new Message";
+            if(noMessages > 1)
+            {
+                message += "s"; //appends an "s" if there are multiple notifications
+            }
+            message+= "!"; //closes the paragraph
+
+            let indexNotificationBox = document.getElementById("indexNotification"); //gets div where notification is displayed
+            indexNotificationBox.innerText = ""; //clears previous notification
+            let notificationParagraph = document.createElement("p"); //creates new paragraph element
+            notificationParagraph.innerText = message; //sets text
+            indexNotificationBox.appendChild(notificationParagraph); //puts paragraph into div
+
+            indexNotificationBox.removeAttribute("hidden"); //shows notification div
+            //console.log("you have "+noMessages+" messages");
         }
     };
 

@@ -1,10 +1,10 @@
 CREATE DATABASE  IF NOT EXISTS `sye564_forum` /*!40100 DEFAULT CHARACTER SET latin1 */;
 USE `sye564_forum`;
--- MySQL dump 10.13  Distrib 8.0.18, for Win64 (x86_64)
+-- MySQL dump 10.13  Distrib 8.0.19, for Win64 (x86_64)
 --
 -- Host: poseidon.salford.ac.uk    Database: sye564_forum
 -- ------------------------------------------------------
--- Server version	5.7.28-0ubuntu0.18.04.4
+-- Server version	5.7.29-0ubuntu0.18.04.1
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -67,7 +67,61 @@ CREATE TABLE `Comments` (
   PRIMARY KEY (`commentID`),
   KEY `userID_comments_idx` (`commentor`),
   CONSTRAINT `userID_comments` FOREIGN KEY (`commentor`) REFERENCES `Users` (`userID`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=6017 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=6020 DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `MessageContacts`
+--
+
+DROP TABLE IF EXISTS `MessageContacts`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `MessageContacts` (
+  `col1` int(11) unsigned NOT NULL,
+  `col2` int(11) unsigned NOT NULL,
+  PRIMARY KEY (`col1`,`col2`),
+  KEY `contactUserID2_idx` (`col2`),
+  CONSTRAINT `contactUserID1` FOREIGN KEY (`col1`) REFERENCES `Users` (`userID`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `contactUserID2` FOREIGN KEY (`col2`) REFERENCES `Users` (`userID`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='very simple table for associating user IDs in a contacts list';
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `MessageImages`
+--
+
+DROP TABLE IF EXISTS `MessageImages`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `MessageImages` (
+  `imageID` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `messageID` int(11) unsigned NOT NULL,
+  `fileName` text NOT NULL,
+  `originalName` text NOT NULL,
+  PRIMARY KEY (`imageID`),
+  UNIQUE KEY `imageID_UNIQUE` (`imageID`),
+  KEY `MessageImagesMessageID_idx` (`messageID`),
+  CONSTRAINT `MessageImagesMessageID` FOREIGN KEY (`messageID`) REFERENCES `Messages` (`messageID`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `Messages`
+--
+
+DROP TABLE IF EXISTS `Messages`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `Messages` (
+  `messageID` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `senderID` int(11) unsigned NOT NULL,
+  `recipientID` int(11) unsigned NOT NULL,
+  `message` text NOT NULL,
+  `received` tinyint(4) NOT NULL DEFAULT '0',
+  `timeSent` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`messageID`)
+) ENGINE=InnoDB AUTO_INCREMENT=151 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -101,7 +155,7 @@ CREATE TABLE `PostImages` (
   PRIMARY KEY (`imageID`),
   KEY `post_idx` (`postID`),
   CONSTRAINT `post` FOREIGN KEY (`postID`) REFERENCES `Posts` (`postID`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -128,7 +182,25 @@ CREATE TABLE `Posts` (
   KEY `category_idx` (`category`),
   CONSTRAINT `category` FOREIGN KEY (`category`) REFERENCES `Categories` (`catID`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `userID` FOREIGN KEY (`poster`) REFERENCES `Users` (`userID`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=1019 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=1022 DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `TypingStatus`
+--
+
+DROP TABLE IF EXISTS `TypingStatus`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `TypingStatus` (
+  `senderID` int(11) unsigned NOT NULL,
+  `recipientID` int(11) unsigned NOT NULL,
+  `status` tinyint(4) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`senderID`,`recipientID`),
+  KEY `TypingStatus_RecipientID_idx` (`recipientID`),
+  CONSTRAINT `TypingStatus_RecipientID` FOREIGN KEY (`recipientID`) REFERENCES `Users` (`userID`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `TypingStatus_SenderID` FOREIGN KEY (`senderID`) REFERENCES `Users` (`userID`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -147,8 +219,12 @@ CREATE TABLE `Users` (
   PRIMARY KEY (`userID`),
   UNIQUE KEY `Users_userName_uindex` (`userName`),
   UNIQUE KEY `Users_email_uindex` (`email`)
-) ENGINE=InnoDB AUTO_INCREMENT=346 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=350 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping events for database 'sye564_forum'
+--
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
@@ -159,4 +235,4 @@ CREATE TABLE `Users` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-01-20 10:52:12
+-- Dump completed on 2020-04-30  1:42:58

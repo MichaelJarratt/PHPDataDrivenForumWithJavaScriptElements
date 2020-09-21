@@ -8,10 +8,10 @@ class Database
     {
         try
         {
-            $servername = "poseidon.salford.ac.uk";
-            $username = "sye564";
-            $password = "Gx3jUJK2DyEkHgL";
-            $this->connection = new PDO("mysql:host=$servername;dbname=sye564_forum", $username, $password);
+            $servername = "SERVERNAME";
+            $username = "USERNAME";
+            $password = "PASSWORD";
+            $this->connection = new PDO("mysql:host=$servername;dbname=DB_NAME", $username, $password);
             // set the PDO error mode to exception
             $this->connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
             //echo "Connected successfully";

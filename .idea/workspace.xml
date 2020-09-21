@@ -3,10 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="ed39860b-6fc6-46fb-8454-bf0789b9e0e7" name="Default" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Models/LoginValidation.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Models/scripts/image.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Views/page1.phtml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/page1.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Views/messaging.phtml" beforeDir="false" afterPath="$PROJECT_DIR$/Views/messaging.phtml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -47,13 +44,6 @@
         <item name="ForumDB" type="feb32156:DbDataSourceImpl" />
         <item name="schemas" type="d4e8921:DatabaseStructure$FamilyGroup" />
         <item name="sye564_forum: schema" type="76f4a085:MysqlImplModel$Schema" />
-      </path>
-      <path>
-        <item name="Database" type="3277223f:DatabaseStructure$DbRootGroup" />
-        <item name="ForumDB" type="feb32156:DbDataSourceImpl" />
-        <item name="schemas" type="d4e8921:DatabaseStructure$FamilyGroup" />
-        <item name="sye564_forum: schema" type="76f4a085:MysqlImplModel$Schema" />
-        <item name="MessageImages: table" type="285a2a93:MysqlImplModel$Table" />
       </path>
     </expand>
     <select />
@@ -191,7 +181,9 @@
       <workItem from="1587142511454" duration="49000" />
       <workItem from="1587142624330" duration="11055000" />
       <workItem from="1587667526379" duration="32000" />
-      <workItem from="1587911284320" duration="69376000" />
+      <workItem from="1587911284320" duration="71274000" />
+      <workItem from="1592949576742" duration="4007000" />
+      <workItem from="1594058434020" duration="1990000" />
     </task>
     <servers />
   </component>
@@ -207,6 +199,10 @@
     </option>
   </component>
   <component name="WindowStateProjectService">
+    <state x="361" y="72" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1588250287113">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="361" y="72" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1536.824@0.0.1536.824" timestamp="1588250287113" />
     <state x="533" y="216" key="#com.intellij.fileTypes.FileTypeChooser" timestamp="1588174093759">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
@@ -219,22 +215,26 @@
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="549" y="168" key="FileChooserDialogImpl/0.0.1536.824@0.0.1536.824" timestamp="1586970353296" />
-    <state width="1493" height="179" key="GridCell.Tab.0.bottom" timestamp="1588207017694">
+    <state width="1493" height="56" key="GridCell.Tab.0.bottom" timestamp="1598706713904">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1493" height="179" key="GridCell.Tab.0.bottom/0.0.1536.824@0.0.1536.824" timestamp="1588207017694" />
-    <state width="1493" height="179" key="GridCell.Tab.0.center" timestamp="1588207017694">
+    <state width="1493" height="56" key="GridCell.Tab.0.bottom/0.0.1536.824@0.0.1536.824" timestamp="1598706713904" />
+    <state width="1493" height="56" key="GridCell.Tab.0.center" timestamp="1598706713904">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1493" height="179" key="GridCell.Tab.0.center/0.0.1536.824@0.0.1536.824" timestamp="1588207017694" />
-    <state width="1493" height="179" key="GridCell.Tab.0.left" timestamp="1588207017694">
+    <state width="1493" height="56" key="GridCell.Tab.0.center/0.0.1536.824@0.0.1536.824" timestamp="1598706713904" />
+    <state width="1493" height="56" key="GridCell.Tab.0.left" timestamp="1598706713904">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1493" height="179" key="GridCell.Tab.0.left/0.0.1536.824@0.0.1536.824" timestamp="1588207017694" />
-    <state width="1493" height="179" key="GridCell.Tab.0.right" timestamp="1588207017694">
+    <state width="1493" height="56" key="GridCell.Tab.0.left/0.0.1536.824@0.0.1536.824" timestamp="1598706713904" />
+    <state width="1493" height="56" key="GridCell.Tab.0.right" timestamp="1598706713904">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1493" height="179" key="GridCell.Tab.0.right/0.0.1536.824@0.0.1536.824" timestamp="1588207017694" />
+    <state width="1493" height="56" key="GridCell.Tab.0.right/0.0.1536.824@0.0.1536.824" timestamp="1598706713904" />
+    <state width="210" height="457" key="HiddenNamespacesPopup" timestamp="1588250309625">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state width="210" height="457" key="HiddenNamespacesPopup/0.0.1536.824@0.0.1536.824" timestamp="1588250309625" />
     <state x="429" y="228" key="NewPhpClassDialog" timestamp="1588171459913">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
@@ -247,10 +247,10 @@
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="277" y="56" key="SettingsEditor/0.0.1536.824@0.0.1536.824" timestamp="1586970647527" />
-    <state x="465" y="238" key="com.intellij.ide.util.TipDialog" timestamp="1587911341779">
+    <state x="465" y="238" key="com.intellij.ide.util.TipDialog" timestamp="1594058434146">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="465" y="238" key="com.intellij.ide.util.TipDialog/0.0.1536.824@0.0.1536.824" timestamp="1587911341779" />
+    <state x="465" y="238" key="com.intellij.ide.util.TipDialog/0.0.1536.824@0.0.1536.824" timestamp="1594058434146" />
     <state x="425" y="187" width="672" height="677" key="run.anything.popup" timestamp="1588183939680">
       <screen x="0" y="0" width="1536" height="824" />
     </state>

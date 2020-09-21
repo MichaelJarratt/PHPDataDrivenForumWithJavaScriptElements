@@ -137,9 +137,9 @@ require_once("template/header.phtml");
             let messageDiv = document.createElement("div"); //creates div that will hold the message
             messageDiv.classList.add("chatMessage"); //adds the class chatMessage
             if(parseInt(message['senderID']) === userID) //if message was sent by current user
-                messageDiv.classList.add("sent");
+                messageDiv.classList.add("sent"); //displayed on right
             else
-                messageDiv.classList.add("received");
+                messageDiv.classList.add("received"); //displayedo on left
 
             messageDiv.appendChild(document.createTextNode(message['message'])); //creates paragraph element and appends to to the message div
 
